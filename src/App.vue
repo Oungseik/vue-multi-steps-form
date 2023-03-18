@@ -4,23 +4,42 @@
       <img :src="mobileSidebar" />
     </div>
     <QuestionSteps :steps="steps" :current="currentStep" />
+    <FormNavigator
+      :start="start"
+      :end="end"
+      :current="currentStep"
+      @navigateForm="handleNavigateForm"
+    />
   </main>
 </template>
 
 <script>
-import QuestionSteps from "./components/QuestionSteps.vue";
+import QuestionSteps from "./components/QuestionSteps.vue"
+import FormNavigator from "./components/FormNavigator.vue"
 
-import mobileSidebar from "./assets/images/bg-sidebar-mobile.svg";
-import questions from "./data/questions.js";
+import mobileSidebar from "./assets/images/bg-sidebar-mobile.svg"
+import questions from "./data/questions.js"
 
 export default {
   name: "App",
-  components: { QuestionSteps },
+  components: { QuestionSteps, FormNavigator },
   data() {
     return {
       mobileSidebar,
       steps: questions.length + 1,
-      currentStep: 0,
+      start: 0,
+      end: 4,
+      currentStep: 0
+    }
+  },
+  methods: {
+    handleNavigateForm(arg) {
+      if (arg === "next") {
+        this.currentStep += 1
+      } else if (arg === "back") {
+        this.currentStep -= 1
+      } else if (arg === "confirm") {
+      }
     }
   }
 }
