@@ -33,6 +33,7 @@ export default [
     step: 2,
     title: "Select your plan",
     description: "You have the option of monthly or yearly billing",
+    value: "",
     monthly: [
       {
         id: "arcade",
