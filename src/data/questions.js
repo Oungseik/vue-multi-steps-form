@@ -8,21 +8,24 @@ export default [
         id: "name",
         type: "text",
         label: "Name",
-        placeholder: "e.g. Stephan King"
+        placeholder: "e.g. Stephan King",
+        value: ""
       },
 
       {
         id: "email",
         type: "email",
         label: "Email Address",
-        placeholder: "e.g. stephanking@lorem.com"
+        placeholder: "e.g. stephanking@lorem.com",
+        value: ""
       },
 
       {
         id: "phone",
         type: "text",
         label: "Phone Number",
-        placeholder: "+1 234 567890"
+        placeholder: "+1 234 567890",
+        value: ""
       }
     ]
   },

@@ -9,10 +9,6 @@
     <button class="confirm-btn" v-if="current === end" @click="$emit('navigateForm', 'confirm')">
       Confirm
     </button>
-
-    <!-- <button class="back-btn">Go Back</button> -->
-    <!-- <button class="next-btn">Next Step</button> -->
-    <!-- <button class="confirm-btn">Confirm</button> -->
   </div>
 </template>
 
@@ -25,9 +21,9 @@ export default {
 <style scoped>
 .btns-container {
   display: flex;
-  background-color: var(--light-gray);
+  background-color: var(--alabaster);
   justify-content: space-between;
-  padding: 12px 10px;
+  padding: 12px 16px;
 }
 
 button {
@@ -40,15 +36,18 @@ button {
 .back-btn {
   background-color: inherit;
   color: var(--cool-gray);
+  padding: 8px 0;
 }
 
 .next-btn {
   background-color: var(--primary-marine-blue);
   color: white;
+  margin-left: auto;
 }
 
 .confirm-btn {
   background-color: var(--primary-purplish-blue);
   color: #fff;
+  margin-left: auto;
 }
 </style>
