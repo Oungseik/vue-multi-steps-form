@@ -8,7 +8,13 @@
         <h2>{{ questionStep.title }}</h2>
         <p class="desc">{{ questionStep.description }}</p>
         <template v-if="questionStep.step === 1">
-          <Input v-for="field in questionStep.inputs" :attr="field" />
+          <Input
+            v-for="field in questionStep.inputs"
+            :attr="field"
+            @inputValue="handleInput"
+            :value="personalInfo[field.id]"
+            :error="error[field.id]"
+          />
         </template>
 
         <template v-if="questionStep.step === 2">
@@ -46,6 +52,22 @@ import Radio from "./components/Radio.vue"
 import mobileSidebar from "./assets/images/bg-sidebar-mobile.svg"
 import questions from "./data/questions.js"
 
+function validateName(name) {
+  return name.length > 3 && /[a-zA-z]+/.test(name)
+}
+
+function validateEmail(email) {
+  // match one or more a-z and @ sign a-z again . and a-z again
+  // example [oung]@[gmail].[com]
+  return /[a-z]+@[a-z]+\.[a-z]+/.test(email)
+}
+
+function validatePhoneNumber(number) {
+  return (
+    number.length > 5 && number.split().every((num) => num === "+" || /\d/.test(num) || num === " ")
+  )
+}
+
 export default {
   name: "App",
   components: { QuestionSteps, FormNavigator, Input, Radio },
@@ -56,20 +78,59 @@ export default {
       start: 0,
       end: 4,
       currentStep: 0,
+      personalInfo: {
+        name: "",
+        email: "",
+        phone: ""
+      },
+      error: {
+        name: false,
+        email: false,
+        phone: false
+      },
       planType: "monthly",
       plan: ""
     }
   },
   methods: {
-    goNextStep() {},
-    goPrevStep() {},
+    goNextStep() {
+      if (this.currentStep === 0) {
+        this.validateStep1()
+      }
+
+      if (this.currentStep === 0 && this.validatePersonalInfo()) {
+        this.currentStep += 1
+      }
+    },
+    goPrevStep() {
+      this.currentStep -= 1
+    },
     submit() {},
+
+    validateStep1() {
+      !validateName(this.personalInfo.name) ? (this.error.name = true) : (this.error.name = false)
+      !validateEmail(this.personalInfo.email)
+        ? (this.error.email = true)
+        : (this.error.email = false)
+      !validatePhoneNumber(this.personalInfo.phone)
+        ? (this.error.phone = true)
+        : (this.error.phone = false)
+    },
+
+    validatePersonalInfo() {
+      return !Object.values(this.error).some((err) => err === true)
+    },
+    handleInput(data) {
+      const { id, value } = data
+      this.personalInfo[id] = value
+      this.error[id] = false
+    },
 
     handleNavigateForm(arg) {
       if (arg === "next") {
-        this.currentStep += 1
+        this.goNextStep()
       } else if (arg === "back") {
-        this.currentStep -= 1
+        this.goPrevStep()
       } else if (arg === "confirm") {
       }
     },
