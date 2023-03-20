@@ -8,40 +8,27 @@
         <h2>{{ questionStep.title }}</h2>
         <p class="desc">{{ questionStep.description }}</p>
         <template v-if="questionStep.step === 1">
-          <Input
-            v-for="field in questionStep.inputs"
-            :attr="field"
-            @inputValue="handleInput"
-            :value="personalInfo[field.id]"
-            :error="error[field.id]"
-          />
+          <Input v-for="field in questionStep.inputs" :attr="field" @inputValue="handleInput"
+            :value="personalInfo[field.id]" :error="error[field.id]" />
         </template>
 
         <template v-if="questionStep.step === 2">
-          <Radio
-            v-for="field in questionStep[planType]"
-            :attr="field"
-            :value="plan"
-            @selectPlan="handleSelectPlan"
-          />
+          <Radio v-for="field in questionStep[planType]" :attr="field" :value="plan" @selectPlan="handleSelectPlan" />
 
           <div class="plans">
-            <span class="plan" :class="{ active: planType === 'monthly' }">Monthly</span
-            ><button @click.prevent="changePlan" class="plan-toggle-btn" :class="planType"></button
-            ><span class="plan" :class="{ active: planType === 'yearly' }">Yearly</span>
+            <span class="plan" :class="{ active: planType === 'monthly' }">Monthly</span><button
+              @click.prevent="changePlan" class="plan-toggle-btn" :class="planType"></button><span class="plan"
+              :class="{ active: planType === 'yearly' }">Yearly</span>
           </div>
         </template>
 
-        <template> </template>
+        <template v-if="questionStep.step === 3">
+          <Checkbox v-for="(field) in questionStep[planType]" :value="addons[field.id]" :attr="field" @check="handleCheckAddons" />
+        </template>
       </template>
     </form>
 
-    <FormNavigator
-      :start="start"
-      :end="end"
-      :current="currentStep"
-      @navigateForm="handleNavigateForm"
-    />
+    <FormNavigator :start="start" :end="end" :current="currentStep" @navigateForm="handleNavigateForm" />
   </main>
 </template>
 
@@ -80,7 +67,7 @@ export default {
       steps: questions.length + 1,
       start: 0,
       end: 4,
-      currentStep: 1,
+      currentStep: 2,
       personalInfo: {
         name: "",
         email: "",
@@ -92,7 +79,12 @@ export default {
         phone: false
       },
       planType: "monthly",
-      plan: ""
+      plan: "",
+      addons: {
+        "online-service": false,
+        "larger-storage": false,
+        "customizable-profile": false,
+      },
     };
   },
   methods: {
@@ -103,12 +95,14 @@ export default {
 
       if (this.currentStep === 0 && this.validatePersonalInfo()) {
         this.currentStep += 1;
+      } else if (this.currentStep === 1 && this.plan) {
+        this.currentStep += 1;
       }
     },
     goPrevStep() {
       this.currentStep -= 1;
     },
-    submit() {},
+    submit() { },
 
     validateStep1() {
       !validateName(this.personalInfo.name) ? (this.error.name = true) : (this.error.name = false);
@@ -142,7 +136,11 @@ export default {
     },
     handleSelectPlan(arg) {
       this.plan = arg.plan;
+    },
+    handleCheckAddons(value) {
+    this.addons[value.addons] = value.selected;
     }
+
   },
   computed: {
     questionStep() {

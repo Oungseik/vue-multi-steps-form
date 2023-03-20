@@ -1,13 +1,6 @@
 <template>
   <div class="input-box">
-    <input
-      :id="attr.id"
-      :value="attr.id"
-      :name="attr.name"
-      :type="attr.type"
-      @input="select"
-      :checked="attr.id === value"
-    />
+    <input type="radio" :id="attr.id" :value="attr.id" :name="attr.name" @input="select" :checked="attr.id === value" />
     <label :for="attr.id">
       <div class="icon">
         <img :src="`/src/assets/images/${attr.icon}`" />
@@ -49,7 +42,7 @@ label {
   padding: 16px;
 }
 
-input:checked ~ label {
+input:checked~label {
   border: 1px solid var(--primary-marine-blue);
 }
 
