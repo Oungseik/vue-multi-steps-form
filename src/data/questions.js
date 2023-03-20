@@ -108,7 +108,7 @@ export default [
       {
         id: "larger-storage",
         type: "checkbox",
-        title: "Large storage",
+        title: "Larger storage",
         desc: "Extra 1TB of cloud storage",
         price: "$2/mo"
       },
