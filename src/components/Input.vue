@@ -20,10 +20,10 @@ export default {
   props: ["attr", "error", "value"],
   methods: {
     handleInput() {
-      this.$emit("inputValue", { id: this.attr.id, value: this.$refs.elem.value })
+      this.$emit("inputValue", { id: this.attr.id, value: this.$refs.elem.value });
     }
   }
-}
+};
 </script>
 
 <style scoped>

@@ -10,7 +10,7 @@
 export default {
   name: "QuestionSteps",
   props: ["steps", "current"]
-}
+};
 </script>
 
 <style scoped>

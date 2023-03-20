@@ -31,6 +31,8 @@
             ><span class="plan" :class="{ active: planType === 'yearly' }">Yearly</span>
           </div>
         </template>
+
+        <template> </template>
       </template>
     </form>
 
@@ -44,40 +46,41 @@
 </template>
 
 <script>
-import FormNavigator from "./components/FormNavigator.vue"
-import Input from "./components/Input.vue"
-import QuestionSteps from "./components/QuestionSteps.vue"
-import Radio from "./components/Radio.vue"
+import FormNavigator from "./components/FormNavigator.vue";
+import Checkbox from "./components/Checkbox.vue";
+import Input from "./components/Input.vue";
+import QuestionSteps from "./components/QuestionSteps.vue";
+import Radio from "./components/Radio.vue";
 
-import mobileSidebar from "./assets/images/bg-sidebar-mobile.svg"
-import questions from "./data/questions.js"
+import mobileSidebar from "./assets/images/bg-sidebar-mobile.svg";
+import questions from "./data/questions.js";
 
 function validateName(name) {
-  return name.length > 3 && /[a-zA-z]+/.test(name)
+  return name.length > 3 && /[a-zA-z]+/.test(name);
 }
 
 function validateEmail(email) {
   // match one or more a-z and @ sign a-z again . and a-z again
   // example [oung]@[gmail].[com]
-  return /[a-z]+@[a-z]+\.[a-z]+/.test(email)
+  return /[a-z]+@[a-z]+\.[a-z]+/.test(email);
 }
 
 function validatePhoneNumber(number) {
   return (
     number.length > 5 && number.split().every((num) => num === "+" || /\d/.test(num) || num === " ")
-  )
+  );
 }
 
 export default {
   name: "App",
-  components: { QuestionSteps, FormNavigator, Input, Radio },
+  components: { QuestionSteps, FormNavigator, Input, Radio, Checkbox },
   data() {
     return {
       mobileSidebar,
       steps: questions.length + 1,
       start: 0,
       end: 4,
-      currentStep: 0,
+      currentStep: 1,
       personalInfo: {
         name: "",
         email: "",
@@ -90,63 +93,63 @@ export default {
       },
       planType: "monthly",
       plan: ""
-    }
+    };
   },
   methods: {
     goNextStep() {
       if (this.currentStep === 0) {
-        this.validateStep1()
+        this.validateStep1();
       }
 
       if (this.currentStep === 0 && this.validatePersonalInfo()) {
-        this.currentStep += 1
+        this.currentStep += 1;
       }
     },
     goPrevStep() {
-      this.currentStep -= 1
+      this.currentStep -= 1;
     },
     submit() {},
 
     validateStep1() {
-      !validateName(this.personalInfo.name) ? (this.error.name = true) : (this.error.name = false)
+      !validateName(this.personalInfo.name) ? (this.error.name = true) : (this.error.name = false);
       !validateEmail(this.personalInfo.email)
         ? (this.error.email = true)
-        : (this.error.email = false)
+        : (this.error.email = false);
       !validatePhoneNumber(this.personalInfo.phone)
         ? (this.error.phone = true)
-        : (this.error.phone = false)
+        : (this.error.phone = false);
     },
 
     validatePersonalInfo() {
-      return !Object.values(this.error).some((err) => err === true)
+      return !Object.values(this.error).some((err) => err === true);
     },
     handleInput(data) {
-      const { id, value } = data
-      this.personalInfo[id] = value
-      this.error[id] = false
+      const { id, value } = data;
+      this.personalInfo[id] = value;
+      this.error[id] = false;
     },
 
     handleNavigateForm(arg) {
       if (arg === "next") {
-        this.goNextStep()
+        this.goNextStep();
       } else if (arg === "back") {
-        this.goPrevStep()
+        this.goPrevStep();
       } else if (arg === "confirm") {
       }
     },
     changePlan() {
-      this.planType === "monthly" ? (this.planType = "yearly") : (this.planType = "monthly")
+      this.planType === "monthly" ? (this.planType = "yearly") : (this.planType = "monthly");
     },
     handleSelectPlan(arg) {
-      this.plan = arg.plan
+      this.plan = arg.plan;
     }
   },
   computed: {
     questionStep() {
-      return questions.find((question) => question.step === this.currentStep + 1)
+      return questions.find((question) => question.step === this.currentStep + 1);
     }
   }
-}
+};
 </script>
 
 <style scoped>

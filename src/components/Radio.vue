@@ -25,10 +25,10 @@ export default {
   props: ["attr", "value"],
   methods: {
     select() {
-      this.$emit("selectPlan", { plan: this.attr.id, price: this.attr.price })
+      this.$emit("selectPlan", { plan: this.attr.id, price: this.attr.price });
     }
   }
-}
+};
 </script>
 
 <style scoped>

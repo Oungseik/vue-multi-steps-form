@@ -15,7 +15,7 @@
 <script>
 export default {
   props: ["start", "end", "current"]
-}
+};
 </script>
 
 <style scoped>
