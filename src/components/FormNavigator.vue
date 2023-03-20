@@ -24,6 +24,9 @@ export default {
   background-color: var(--alabaster);
   justify-content: space-between;
   padding: 12px 16px;
+  position: fixed;
+  width: 100%;
+  bottom: 0
 }
 
 button {
