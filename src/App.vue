@@ -13,6 +13,10 @@ export default {
   data() {
     return {
       mobileSidebar,
+      formData: {
+        name: "",
+        email: "",
+      }
     };
   },
 }
