@@ -2,6 +2,7 @@ export default [
   {
     step: 1,
     title: "Personal info",
+    shortDesc: "YOUR INFO",
     description: "Please provide your name, email, address, and phone number.",
     informations: [
       {
@@ -32,6 +33,7 @@ export default [
   {
     step: 2,
     title: "Select your plan",
+    shortDesc: "SELECT PLAN",
     description: "You have the option of monthly or yearly billing",
     type: "radio",
     name: "plan",
@@ -41,12 +43,12 @@ export default [
         icon: "icon-arcade.svg",
         monthly: {
           price: 9,
-          unit: "/mo",
+          unit: "/mo"
         },
         yearly: {
           price: 90,
           unit: "/yr",
-          special: "2 months free",
+          special: "2 months free"
         }
       },
       {
@@ -54,12 +56,12 @@ export default [
         icon: "icon-advanced.svg",
         monthly: {
           price: 12,
-          unit: "/mo",
+          unit: "/mo"
         },
         yearly: {
           price: 120,
           unit: "/yr",
-          special: "2 months free",
+          special: "2 months free"
         }
       },
       {
@@ -67,19 +69,20 @@ export default [
         icon: "icon-pro.svg",
         monthly: {
           price: 15,
-          unit: "/mo",
+          unit: "/mo"
         },
         yearly: {
           price: 150,
           unit: "/yr",
-          special: "2 months free",
+          special: "2 months free"
         }
       }
-    ],
+    ]
   },
   {
     step: 3,
     title: "Pick add-ons",
+    shortDesc: "ADD-ONS",
     description: "Add-ons help enhance your gaming experience.",
     type: "checkbox",
     addOns: [
@@ -122,7 +125,12 @@ export default [
           unit: "/yr"
         }
       }
-
-    ],
+    ]
+  },
+  {
+    step: 4,
+    title: "Finishing up",
+    shortDesc: "SUMMARY",
+    description: "Double-check everything looks OK before confirming"
   }
 ];

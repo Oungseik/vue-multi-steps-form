@@ -1,12 +1,12 @@
 <template>
-  <div class="btns-container">
-    <button class="back-btn" v-if="current !== start" @click="$emit('navigateForm', 'back')">
+  <div class="flex bg-white px-8 py-4" :class="class">
+    <button class="text-cool-gray" v-if="current !== start" @click="$emit('navigateForm', 'back')">
       Go Back
     </button>
-    <button class="next-btn" v-if="current !== end" @click="$emit('navigateForm', 'next')">
+    <button class="ml-auto px-4 py-2 bg-marine-blue text-alabaster rounded-md" v-if="current !== end" @click="$emit('navigateForm', 'next')">
       Next Step
     </button>
-    <button class="confirm-btn" v-if="current === end" @click="$emit('navigateForm', 'confirm')">
+    <button class="ml-auto px-4 py-2 bg-purplish-blue text-alabaster rounded-md" v-if="current === end" @click="$emit('navigateForm', 'confirm')">
       Confirm
     </button>
   </div>
@@ -14,6 +14,6 @@
 
 <script>
 export default {
-  props: ["start", "end", "current"]
+  props: ["start", "end", "current", "class"]
 };
 </script>
