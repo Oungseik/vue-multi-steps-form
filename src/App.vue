@@ -23,8 +23,36 @@
         </template>
 
         <template v-if="questionStep.step === 3">
-          <Checkbox v-for="(field) in questionStep[planType]" :value="addons[field.id]" :attr="field" @check="handleCheckAddons" />
+          <Checkbox v-for="(field) in questionStep[planType]" :value="addons[field.id]" :attr="field"
+            @check="handleCheckAddons" />
         </template>
+      </template>
+
+      <template v-if="currentStep === 3">
+        <div class="confirm">
+          <h2>Finishing up</h2>
+          <p class="desc">Double-check everything looks OK before confirming</p>
+          <ul class="result">
+            <li>
+              <div>
+                <p class="selected-plan"> {{ result.plan }} ({{ result.planType }})</p>
+                <button class="change-info" @click.prevent="handleChangeInfo">Change</button>
+              </div>
+              <p class="plan-price">{{ result.price }}</p>
+            </li>
+            <li class="selected-addon" v-for="addon in result.addons">
+              <p>{{ addon.title }}</p>
+              <p>+{{ addon.price }}</p>
+            </li>
+          </ul>
+          <div class="total">
+            <p>Total <span>{{ result.planType === "monthly" ? "(per month)" : "(per year)" }}</span></p>
+            <p>
+              +${{ parseInt(result.price.slice(1)) + result.addons.map(addon =>
+                parseInt(addon.price.slice(1))).reduce((a, b) => a + b, 0) }}
+              {{ result.planType === "monthly" ? "/mo" : "/yr" }}</p>
+          </div>
+        </div>
       </template>
     </form>
 
@@ -49,7 +77,7 @@ function validateName(name) {
 function validateEmail(email) {
   // match one or more a-z and @ sign a-z again . and a-z again
   // example [oung]@[gmail].[com]
-  return /[a-z]+@[a-z]+\.[a-z]+/.test(email);
+  return /[a-z0-9]+@[a-z]+\.[a-z]+/.test(email);
 }
 
 function validatePhoneNumber(number) {
@@ -67,7 +95,7 @@ export default {
       steps: questions.length + 1,
       start: 0,
       end: 4,
-      currentStep: 2,
+      currentStep: 0,
       personalInfo: {
         name: "",
         email: "",
@@ -96,6 +124,8 @@ export default {
       if (this.currentStep === 0 && this.validatePersonalInfo()) {
         this.currentStep += 1;
       } else if (this.currentStep === 1 && this.plan) {
+        this.currentStep += 1;
+      } else if (this.currentStep === 2) {
         this.currentStep += 1;
       }
     },
@@ -138,13 +168,22 @@ export default {
       this.plan = arg.plan;
     },
     handleCheckAddons(value) {
-    this.addons[value.addons] = value.selected;
+      this.addons[value.addons] = value.selected;
     }
 
   },
   computed: {
     questionStep() {
       return questions.find((question) => question.step === this.currentStep + 1);
+    },
+    result() {
+      return {
+        plan: this.plan,
+        planType: this.planType,
+        price: questions[1][this.planType].find(p => p.id === this.plan)?.price,
+        addons: questions[2][this.planType].filter(p => this.addons[p.id]),
+        total: this.price,
+      };
     }
   }
 };
@@ -156,6 +195,7 @@ main {
   min-height: 100svh;
   position: relative;
   background-color: var(--magnolia);
+  padding-bottom: 60px;
 }
 
 .mobile-sidebar {
@@ -218,5 +258,60 @@ h2 {
 
 .plan.active {
   color: var(--primary-marine-blue);
+}
+
+.confirm ul {
+  list-style-type: none;
+  text-transform: capitalize;
+}
+
+.change-info {
+  background-color: var(--magnolia);
+  border: transparent;
+  color: var(--cool-gray);
+  font-family: inherit;
+  text-decoration: underline;
+}
+
+.result {
+  padding: 16px 20px;
+  border-radius: 4px;
+  background-color: var(--magnolia);
+  margin-top: 20px;
+}
+
+.result li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.result li:first-child {
+  border-bottom: 2px solid var(--light-gray);
+  padding: 0 0 16px;
+
+}
+
+.selected-plan {
+  color: var(--primary-marine-blue);
+  font-weight: bold;
+}
+
+.plan-price {
+  color: var(--primary-marine-blue);
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.selected-addon {
+  margin: 16px 0;
+  color: var(--cool-gray);
+}
+
+.total {
+  color: var(--cool-gray);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
 }
 </style>

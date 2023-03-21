@@ -26,7 +26,7 @@ export default {
   padding: 12px 16px;
   position: fixed;
   width: 100%;
-  bottom: 0
+  bottom: 0; 
 }
 
 button {
