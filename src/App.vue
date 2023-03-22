@@ -10,8 +10,8 @@
         <FormHeader :title="form.title" :description="form.description" />
 
         <template v-if="currentStep === 0">
-          <Input v-for="info in form.informations" :attr="info" :error="formData.isInvalid[info.id]"
-            @inputValue="handleInput" />
+          <Input v-for="info in form.informations" :attr="info" :value="formData[info.id]"
+            :error="!formData.isValid[info.id]" @inputValue="handleInput" />
         </template>
       </form>
 
@@ -24,6 +24,7 @@
 <script>
 import mobileSidebar from "./assets/images/bg-sidebar-mobile.svg";
 import formSteps from "./data/formSteps";
+import { validateName, validateEmail, validatePhoneNumber } from "./lib/validate.js";
 
 import QuestionSteps from "./components/QuestionSteps.vue";
 import FormHeader from "./components/FormHeader.vue";
@@ -42,7 +43,7 @@ export default {
         name: "",
         email: "",
         phone: "",
-        isInvalid: {
+        isValid: {
           name: true,
           email: true,
           phone: true,
@@ -59,20 +60,24 @@ export default {
     handleInput(param) {
       const { id, value } = param;
       this.formData[id] = value;
+      this.formData.isValid[id] = true;
     },
 
     handleNavigateForm(event) {
       if (this.form.title === "Personal info") {
-        console.log("validate personal info");
+        this.formData.isValid.name = validateName(this.formData.name)
+        this.formData.isValid.email = validateEmail(this.formData.email)
+        this.formData.isValid.phone = validatePhoneNumber(this.formData.phone)
       }
 
-      event === "back"
-        ? (this.currentStep -= 1)
-        : event === "next"
-          ? (this.currentStep += 1)
-          : event === "confirm"
-            ? this.submitData()
-            : undefined;
+      if (event === "back") {
+        this.currentStep -= 1
+      } else if (event === "next") {
+
+      } else {
+        this.submitData()
+      }
+
     },
 
     submitData() { }
