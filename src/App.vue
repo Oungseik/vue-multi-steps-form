@@ -1,12 +1,23 @@
 <template>
-  <main class="relative min-h-screen bg-magnolia">
-    <div class="mobile-sidebar"><img class="w-full" :src="mobileSidebar" /></div>
-    <QuestionSteps class="absolute top-8 left-1/2 -translate-x-1/2" :steps="totalSteps" :currentStep="currentStep" />
+  <main class="relative min-h-screen bg-light-gray p-8 pb-24">
+    <div class="absolute w-full top-0 left-0">
+      <img class="w-full" :src="mobileSidebar" />
+    </div>
+    <div class="relative z-10">
+      <QuestionSteps class="mx-auto" :steps="totalSteps" :currentStep="currentStep" />
 
-    <template> </template>
+      <form class="bg-white rounded-lg px-6 py-8 mt-8">
+        <FormHeader :title="form.title" :description="form.description" />
 
-    <FormNavigator class="w-full fixed bottom-0" :start="0" :end="totalSteps - 1" :current="currentStep"
-      @navigateForm="handleNavigateForm" />
+        <template v-if="currentStep === 0">
+          <Input v-for="info in form.informations" :attr="info" :error="formData.isInvalid[info.id]"
+            @inputValue="handleInput" />
+        </template>
+      </form>
+
+      <FormNavigator class="w-full fixed left-0 bottom-0" :start="0" :end="totalSteps - 1" :current="currentStep"
+        @navigateForm="handleNavigateForm" />
+    </div>
   </main>
 </template>
 
@@ -17,10 +28,11 @@ import formSteps from "./data/formSteps";
 import QuestionSteps from "./components/QuestionSteps.vue";
 import FormHeader from "./components/FormHeader.vue";
 import FormNavigator from "./components/FormNavigator.vue";
+import Input from "./components/Input.vue";
 
 export default {
   name: "App",
-  components: { FormHeader, FormNavigator, QuestionSteps },
+  components: { FormHeader, FormNavigator, Input, QuestionSteps },
   data() {
     return {
       mobileSidebar,
@@ -30,6 +42,11 @@ export default {
         name: "",
         email: "",
         phone: "",
+        isInvalid: {
+          name: true,
+          email: true,
+          phone: true,
+        },
         plan: "",
         planType: "",
         planPrice: "",
@@ -39,7 +56,16 @@ export default {
   },
 
   methods: {
+    handleInput(param) {
+      const { id, value } = param;
+      this.formData[id] = value;
+    },
+
     handleNavigateForm(event) {
+      if (this.form.title === "Personal info") {
+        console.log("validate personal info");
+      }
+
       event === "back"
         ? (this.currentStep -= 1)
         : event === "next"
@@ -48,8 +74,12 @@ export default {
             ? this.submitData()
             : undefined;
     },
-    submitData() {
-      console.log("send data to the backend");
+
+    submitData() { }
+  },
+  computed: {
+    form() {
+      return formSteps[this.currentStep];
     }
   }
 };

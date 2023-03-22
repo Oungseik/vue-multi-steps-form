@@ -1,5 +1,5 @@
 <template>
-  <ul class="flex w-1/2 justify-between" :class="class">
+  <ul class="flex w-2/3 justify-between" :class="class">
     <li
       class="border-2 border-light-gray font-bold text-2xl rounded-full w-10 h-10 flex items-center justify-center text-light-gray"
       v-for="step in [...Array(steps).keys()]"

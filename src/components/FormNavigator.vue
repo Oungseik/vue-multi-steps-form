@@ -3,10 +3,18 @@
     <button class="text-cool-gray" v-if="current !== start" @click="$emit('navigateForm', 'back')">
       Go Back
     </button>
-    <button class="ml-auto px-4 py-2 bg-marine-blue text-alabaster rounded-md" v-if="current !== end" @click="$emit('navigateForm', 'next')">
+    <button
+      class="ml-auto px-4 py-2 bg-marine-blue text-alabaster rounded-md"
+      v-if="current !== end"
+      @click="$emit('navigateForm', 'next')"
+    >
       Next Step
     </button>
-    <button class="ml-auto px-4 py-2 bg-purplish-blue text-alabaster rounded-md" v-if="current === end" @click="$emit('navigateForm', 'confirm')">
+    <button
+      class="ml-auto px-4 py-2 bg-purplish-blue text-alabaster rounded-md"
+      v-if="current === end"
+      @click="$emit('navigateForm', 'confirm')"
+    >
       Confirm
     </button>
   </div>
