@@ -63,17 +63,23 @@ export default {
       this.formData.isValid[id] = true;
     },
 
-    handleNavigateForm(event) {
+    validate() {
       if (this.form.title === "Personal info") {
         this.formData.isValid.name = validateName(this.formData.name)
         this.formData.isValid.email = validateEmail(this.formData.email)
         this.formData.isValid.phone = validatePhoneNumber(this.formData.phone)
+        return Object.values(this.formData.isValid).every(x => x);
+      } else {
+        return true;
       }
+    },
+
+    handleNavigateForm(event) {
 
       if (event === "back") {
         this.currentStep -= 1
-      } else if (event === "next") {
-
+      } else if (event === "next" && this.validate()) {
+        this.currentStep += 1;
       } else {
         this.submitData()
       }
