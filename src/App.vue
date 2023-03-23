@@ -19,14 +19,21 @@
             :unit="info[formData.planType].unit" @selectPlan="handleSelectPlan" />
           <div class="flex items-center justify-center gap-8 bg-light-gray py-3 rounded-xl">
             <button @click.prevent="formData.planType = 'monthly'" class="text-cool-gray"
-              :class="{ 'text-marine-blue': formData.planType === 'monthly' }">Monthly</button>
-            <button class="bg-marine-blue w-10 h-5 rounded-full relative"
-              @click.prevent="formData.planType === 'monthly' ? (formData.planType = 'yearly') : (formData.planType = 'monthly')">
+              :class="{ 'text-marine-blue': formData.planType === 'monthly' }">
+              Monthly
+            </button>
+            <button class="bg-marine-blue w-10 h-5 rounded-full relative" @click.prevent="
+              formData.planType === 'monthly'
+                ? (formData.planType = 'yearly')
+                : (formData.planType = 'monthly')
+            ">
               <span class="block absolute w-3 h-3 bg-white rounded-full top-1 translate-x-1 transition-transform"
                 :class="{ 'translate-x-6 left-auto': formData.planType === 'yearly' }"></span>
             </button>
             <button @click.prevent="formData.planType = 'yearly'" class="text-cool-gray"
-              :class="{ 'text-marine-blue': formData.planType === 'yearly' }">Yearly</button>
+              :class="{ 'text-marine-blue': formData.planType === 'yearly' }">
+              Yearly
+            </button>
           </div>
         </template>
       </form>
@@ -63,7 +70,7 @@ export default {
         isValid: {
           name: true,
           email: true,
-          phone: true,
+          phone: true
         },
         plan: "",
         planType: "monthly",
@@ -87,10 +94,12 @@ export default {
 
     validate() {
       if (this.form.title === "Personal info") {
-        this.formData.isValid.name = validateName(this.formData.name)
-        this.formData.isValid.email = validateEmail(this.formData.email)
-        this.formData.isValid.phone = validatePhoneNumber(this.formData.phone)
-        return Object.values(this.formData.isValid).every(x => x);
+        this.formData.isValid.name = validateName(this.formData.name);
+        this.formData.isValid.email = validateEmail(this.formData.email);
+        this.formData.isValid.phone = validatePhoneNumber(this.formData.phone);
+        return Object.values(this.formData.isValid).every((x) => x);
+      } else if (this.form.title === "Select your plan") {
+        return this.formData.plan;
       } else {
         return true;
       }
@@ -98,13 +107,12 @@ export default {
 
     handleNavigateForm(event) {
       if (event === "back") {
-        this.currentStep -= 1
-      } else if (event === "next" && (this.validate())) {
+        this.currentStep -= 1;
+      } else if (event === "next" && this.validate()) {
         this.currentStep += 1;
       } else {
-        this.submitData()
+        this.submitData();
       }
-
     },
 
     submitData() { }
