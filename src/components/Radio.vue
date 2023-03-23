@@ -1,31 +1,24 @@
 <template>
-  <div class="input-box">
-    <input
-      type="radio"
-      :id="attr.id"
-      :value="attr.id"
-      :name="attr.name"
-      @input="select"
-      :checked="attr.id === value"
-    />
-    <label :for="attr.id">
-      <div class="icon">
-        <img :src="`/src/assets/images/${attr.icon}`" />
-      </div>
-      <div>
-        <p>{{ attr.id }}</p>
-        <p>{{ attr.price }}</p>
-      </div>
-    </label>
+<div class="my-4">
+  <input class="peer hidden"  type="radio" :id="attr.id" :value="attr.id" :name="name" @input="select" :checked="attr.id === value" />
+  <label :for="attr.id" class="flex gap-x-4 items-center border-2 border-light-gray rounded-lg p-3 peer-checked:border-marine-blue">
+    <div class="icon">
+      <img :src="`/src/assets/images/${attr.icon}`" />
+    </div>
+    <div>
+      <p class="capitalize">{{ attr.id }}</p>
+      <p class="text-sm text-cool-gray">${{ value }}{{ unit }}</p>
+    </div>
+  </label>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["attr", "value"],
+  props: ["attr", "name", "value", "unit"],
   methods: {
     select() {
-      this.$emit("selectPlan", { plan: this.attr.id, price: this.attr.price });
+      this.$emit("selectPlan", { plan: this.attr.id, price: this.price });
     }
   }
 };
