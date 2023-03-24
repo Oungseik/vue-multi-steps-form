@@ -67,6 +67,7 @@
             :attr="info"
             :planType="formData.planType"
             :key="info.id"
+            @check="handleSelectAddOns"
           />
         </template>
       </form>
@@ -152,6 +153,11 @@ export default {
       } else {
         this.submitData();
       }
+    },
+
+    handleSelectAddOns(event) {
+      this.formData.addOns[event.addOns] = event.selected;
+      console.log(this.formData.addOns);
     },
 
     submitData() {}

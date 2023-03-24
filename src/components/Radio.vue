@@ -11,7 +11,7 @@
     />
     <label
       :for="attr.id"
-      class="flex gap-x-4 items-center border-2 border-light-gray rounded-lg p-3 peer-checked:border-marine-blue"
+      class="flex gap-x-4 items-center border-2 border-light-gray rounded-lg p-3 peer-checked:border-purplish-blue"
     >
       <div class="icon">
         <img :src="`/src/assets/images/${attr.icon}`" />
