@@ -90,7 +90,7 @@ export default [
         id: "online-service",
         title: "Online service",
         desc: "Access to multiplayer games",
-        monthy: {
+        monthly: {
           price: 1,
           unit: "/mo"
         },
@@ -103,7 +103,7 @@ export default [
         id: "larger-storage",
         title: "Larger storage",
         desc: "Extra 1TB of cloud storage",
-        monthy: {
+        monthly: {
           price: 2,
           unit: "/mo"
         },
@@ -115,8 +115,8 @@ export default [
       {
         id: "customizable-profile",
         title: "Customizable profile",
-        desc: "Custom theme on profile",
-        monthy: {
+        desc: "Custom theme on your profile",
+        monthly: {
           price: 2,
           unit: "/mo"
         },

@@ -10,36 +10,67 @@
         <FormHeader :title="form.title" :description="form.description" />
 
         <template v-if="currentStep === 0">
-          <Input v-for="info in form.informations" :attr="info" :value="formData[info.id]"
-            :error="!formData.isValid[info.id]" @inputValue="handleInput" />
+          <Input
+            v-for="info in form.informations"
+            :attr="info"
+            :value="formData[info.id]"
+            :error="!formData.isValid[info.id]"
+            @inputValue="handleInput"
+          />
         </template>
 
         <template v-if="currentStep === 1">
-          <Radio v-for="info in form.plans" :attr="info" :value="info[formData.planType].price" :name="form.name"
-            :unit="info[formData.planType].unit" @selectPlan="handleSelectPlan" />
+          <Radio
+            v-for="info in form.plans"
+            :attr="info"
+            :planType="formData.planType"
+            :value="formData.plan"
+            :name="form.name"
+            @selectPlan="handleSelectPlan"
+          />
           <div class="flex items-center justify-center gap-8 bg-light-gray py-3 rounded-xl">
-            <button @click.prevent="formData.planType = 'monthly'" class="text-cool-gray"
-              :class="{ 'text-marine-blue': formData.planType === 'monthly' }">
+            <button
+              @click.prevent="formData.planType = 'monthly'"
+              class="text-cool-gray"
+              :class="{ 'text-marine-blue': formData.planType === 'monthly' }"
+            >
               Monthly
             </button>
-            <button class="bg-marine-blue w-10 h-5 rounded-full relative" @click.prevent="
-              formData.planType === 'monthly'
-                ? (formData.planType = 'yearly')
-                : (formData.planType = 'monthly')
-            ">
-              <span class="block absolute w-3 h-3 bg-white rounded-full top-1 translate-x-1 transition-transform"
-                :class="{ 'translate-x-6 left-auto': formData.planType === 'yearly' }"></span>
+            <button
+              class="bg-marine-blue w-10 h-5 rounded-full relative"
+              @click.prevent="
+                formData.planType === 'monthly'
+                  ? (formData.planType = 'yearly')
+                  : (formData.planType = 'monthly')
+              "
+            >
+              <span
+                class="block absolute w-3 h-3 bg-white rounded-full top-1 translate-x-1 transition-transform"
+                :class="{ 'translate-x-6 left-auto': formData.planType === 'yearly' }"
+              ></span>
             </button>
-            <button @click.prevent="formData.planType = 'yearly'" class="text-cool-gray"
-              :class="{ 'text-marine-blue': formData.planType === 'yearly' }">
+            <button
+              @click.prevent="formData.planType = 'yearly'"
+              class="text-cool-gray"
+              :class="{ 'text-marine-blue': formData.planType === 'yearly' }"
+            >
               Yearly
             </button>
           </div>
         </template>
+
+        <template v-if="currentStep === 2">
+          <Checkbox v-for="info in form.addOns" :attr="info" :planType="formData.planType" />
+        </template>
       </form>
 
-      <FormNavigator class="w-full fixed left-0 bottom-0" :start="0" :end="totalSteps - 1" :current="currentStep"
-        @navigateForm="handleNavigateForm" />
+      <FormNavigator
+        class="w-full fixed left-0 bottom-0"
+        :start="0"
+        :end="totalSteps - 1"
+        :current="currentStep"
+        @navigateForm="handleNavigateForm"
+      />
     </div>
   </main>
 </template>
@@ -49,20 +80,21 @@ import mobileSidebar from "./assets/images/bg-sidebar-mobile.svg";
 import formSteps from "./data/formSteps";
 import { validateName, validateEmail, validatePhoneNumber } from "./lib/validate.js";
 
-import QuestionSteps from "./components/QuestionSteps.vue";
+import Checkbox from "./components/Checkbox.vue";
 import FormHeader from "./components/FormHeader.vue";
 import FormNavigator from "./components/FormNavigator.vue";
 import Input from "./components/Input.vue";
+import QuestionSteps from "./components/QuestionSteps.vue";
 import Radio from "./components/Radio.vue";
 
 export default {
   name: "App",
-  components: { FormHeader, FormNavigator, Input, Radio, QuestionSteps },
+  components: { Checkbox, FormHeader, FormNavigator, Input, Radio, QuestionSteps },
   data() {
     return {
       mobileSidebar,
       totalSteps: formSteps.length,
-      currentStep: 1,
+      currentStep: 2,
       formData: {
         name: "",
         email: "",
@@ -115,7 +147,7 @@ export default {
       }
     },
 
-    submitData() { }
+    submitData() {}
   },
   computed: {
     form() {

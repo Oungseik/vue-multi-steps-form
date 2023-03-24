@@ -18,7 +18,7 @@
       </div>
       <div>
         <p class="capitalize">{{ attr.id }}</p>
-        <p class="text-sm text-cool-gray">${{ value }}{{ unit }}</p>
+        <p class="text-sm text-cool-gray">${{ attr[planType].price }}{{ attr[planType].unit }}</p>
       </div>
     </label>
   </div>
@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  props: ["attr", "name", "value", "unit"],
+  props: ["attr", "name", "value", "planType"],
   methods: {
     select() {
       this.$emit("selectPlan", { plan: this.attr.id, price: this.price });
