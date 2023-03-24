@@ -6,7 +6,7 @@
       :id="attr.id"
       :value="attr.id"
       :name="name"
-      @input="select"
+      @click="select"
       :checked="attr.id === value"
     />
     <label
@@ -30,7 +30,7 @@ export default {
   props: ["attr", "name", "value", "planType"],
   methods: {
     select() {
-      this.$emit("selectPlan", { plan: this.attr.id, price: this.price });
+      this.$emit("selectPlan", { plan: this.attr.id, price: this.attr[this.planType].price });
     }
   }
 };

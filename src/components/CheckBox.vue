@@ -29,7 +29,7 @@ export default {
   props: ["attr", "value", "price", "unit", "planType"],
   methods: {
     handleInput() {
-      this.$emit("check", { addOns: this.attr.id, selected: this.$refs.myCheckbox.checked });
+      this.$emit("check", { id: this.attr.id, selected: this.$refs.myCheckbox.checked });
     }
   }
 };

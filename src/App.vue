@@ -4,7 +4,7 @@
       <img class="w-full" :src="mobileSidebar" />
     </div>
     <div class="relative z-10">
-      <QuestionSteps class="mx-auto" :steps="totalSteps" :currentStep="currentStep" />
+      <QuestionSteps className="mx-auto" :steps="totalSteps + 1" :currentStep="currentStep" />
 
       <form class="bg-white rounded-xl px-6 py-8 mt-8">
         <FormHeader :title="form.title" :description="form.description" />
@@ -70,12 +70,58 @@
             @check="handleSelectAddOns"
           />
         </template>
+
+        <template v-if="currentStep === totalSteps">
+          <div class="px-6 py-4 mt-2 bg-magnolia rounded-lg">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="capitalize font-bold text-marine-blue">
+                  <span>{{ formData.plan }}</span>
+                  <span>({{ formData.planType }})</span>
+                </p>
+                <button @click.prevent="currentStep = 0" class="text-cool-gray underline text-sm">
+                  Change
+                </button>
+              </div>
+              <p class="font-bold text-marine-blue">${{ formData.price }}{{ unit }}</p>
+            </div>
+            <template v-if="Object.values(formData.addOns).some((x) => x.selected)">
+              <div class="border-t-2 border-light-gray mt-4">
+                <template v-for="addOn in formData.addOns" :key="addOn.id">
+                  <div v-if="addOn.selected" class="capitalize pt-4 flex justify-between">
+                    <span class="text-cool-gray">{{ addOn.id }} </span>
+                    <span class="text-purplish-blue font-bold"
+                      >+${{ addOn[formData.planType] }}{{ unit }}</span
+                    >
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
+
+          <div class="capitalize pt-4 px-6 flex justify-between">
+            <span class="text-cool-gray"
+              >Total
+              <span class="lowercase">{{
+                formData.planType === "monthly" ? "(per month)" : "(per year)"
+              }}</span>
+            </span>
+            <span class="text-purplish-blue font-bold lowercase"
+              >+${{
+                formData.price +
+                formData.addOns
+                  .filter((addon) => addon.selected)
+                  .reduce((a, b) => a + b[formData.planType], 0)
+              }}{{ unit }}</span
+            >
+          </div>
+        </template>
       </form>
 
       <FormNavigator
         className="w-full fixed left-0 bottom-0"
         :start="0"
-        :end="totalSteps - 1"
+        :end="totalSteps"
         :current="currentStep"
         @navigateForm="handleNavigateForm"
       />
@@ -101,8 +147,8 @@ export default {
   data() {
     return {
       mobileSidebar,
-      totalSteps: formSteps.length,
-      currentStep: 2,
+      totalSteps: formSteps.length - 1,
+      currentStep: 0,
       formData: {
         name: "",
         email: "",
@@ -114,8 +160,19 @@ export default {
         },
         plan: "",
         planType: "monthly",
-        price: "",
-        addOns: formSteps[2].addOns.reduce((o, val) => ({ ...o, [val.id]: false }), {})
+        price: 0,
+        addOns: formSteps[2].addOns.reduce(
+          (o, val) => [
+            ...o,
+            {
+              id: val.id,
+              selected: false,
+              monthly: val.monthly.price,
+              yearly: val.yearly.price
+            }
+          ],
+          []
+        )
       }
     };
   },
@@ -139,7 +196,7 @@ export default {
         this.formData.isValid.phone = validatePhoneNumber(this.formData.phone);
         return Object.values(this.formData.isValid).every((x) => x);
       } else if (this.form.title === "Select your plan") {
-        return this.formData.plan;
+        return this.formData.plan !== "";
       } else {
         return true;
       }
@@ -156,8 +213,9 @@ export default {
     },
 
     handleSelectAddOns(event) {
-      this.formData.addOns[event.addOns] = event.selected;
-      console.log(this.formData.addOns);
+      this.formData.addOns.forEach(
+        (addOn) => addOn.id === event.id && (addOn.selected = event.selected)
+      );
     },
 
     submitData() {}
@@ -165,6 +223,9 @@ export default {
   computed: {
     form() {
       return formSteps[this.currentStep];
+    },
+    unit() {
+      return this.formData.planType === "monthly" ? "/mo" : "/yr";
     }
   }
 };
