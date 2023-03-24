@@ -72,7 +72,7 @@
       </form>
 
       <FormNavigator
-        class="w-full fixed left-0 bottom-0"
+        className="w-full fixed left-0 bottom-0"
         :start="0"
         :end="totalSteps - 1"
         :current="currentStep"
@@ -90,7 +90,7 @@ import { validateName, validateEmail, validatePhoneNumber } from "./lib/validate
 import CheckBox from "./components/CheckBox.vue";
 import FormHeader from "./components/FormHeader.vue";
 import FormNavigator from "./components/FormNavigator.vue";
-import FormInput from "./components/Input.vue";
+import FormInput from "./components/FormInput.vue";
 import QuestionSteps from "./components/QuestionSteps.vue";
 import Radio from "./components/Radio.vue";
 

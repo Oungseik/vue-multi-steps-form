@@ -1,5 +1,5 @@
 <template>
-  <div class="flex bg-white px-8 py-4" :class="class">
+  <div class="flex bg-white px-8 py-4" :class="className">
     <button class="text-cool-gray" v-if="current !== start" @click="$emit('navigateForm', 'back')">
       Go Back
     </button>
@@ -22,6 +22,6 @@
 
 <script>
 export default {
-  props: ["start", "end", "current", "class"]
+  props: ["start", "end", "current", "className"]
 };
 </script>

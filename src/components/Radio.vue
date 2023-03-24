@@ -26,6 +26,7 @@
 
 <script>
 export default {
+  name: "RadioBox",
   props: ["attr", "name", "value", "planType"],
   methods: {
     select() {
