@@ -22,6 +22,7 @@
 
 <script>
 export default {
+  name: "FormInput",
   props: ["attr", "error", "value"],
   methods: {
     handleInput() {

@@ -13,6 +13,7 @@
 
 <script>
 export default {
+  name: "CheckBox",
   props: ["attr", "value", "price", "unit", "planType"],
   methods: {
     handleInput() {

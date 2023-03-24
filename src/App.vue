@@ -10,12 +10,13 @@
         <FormHeader :title="form.title" :description="form.description" />
 
         <template v-if="currentStep === 0">
-          <Input
+          <FormInput
             v-for="info in form.informations"
             :attr="info"
             :value="formData[info.id]"
             :error="!formData.isValid[info.id]"
             @inputValue="handleInput"
+            :key="info.id"
           />
         </template>
 
@@ -27,6 +28,7 @@
             :value="formData.plan"
             :name="form.name"
             @selectPlan="handleSelectPlan"
+            :key="info.id"
           />
           <div class="flex items-center justify-center gap-8 bg-light-gray py-3 rounded-xl">
             <button
@@ -60,7 +62,12 @@
         </template>
 
         <template v-if="currentStep === 2">
-          <Checkbox v-for="info in form.addOns" :attr="info" :planType="formData.planType" />
+          <CheckBox
+            v-for="info in form.addOns"
+            :attr="info"
+            :planType="formData.planType"
+            :key="info.id"
+          />
         </template>
       </form>
 
@@ -80,16 +87,16 @@ import mobileSidebar from "./assets/images/bg-sidebar-mobile.svg";
 import formSteps from "./data/formSteps";
 import { validateName, validateEmail, validatePhoneNumber } from "./lib/validate.js";
 
-import Checkbox from "./components/Checkbox.vue";
+import CheckBox from "./components/CheckBox.vue";
 import FormHeader from "./components/FormHeader.vue";
 import FormNavigator from "./components/FormNavigator.vue";
-import Input from "./components/Input.vue";
+import FormInput from "./components/Input.vue";
 import QuestionSteps from "./components/QuestionSteps.vue";
 import Radio from "./components/Radio.vue";
 
 export default {
   name: "App",
-  components: { Checkbox, FormHeader, FormNavigator, Input, Radio, QuestionSteps },
+  components: { CheckBox, FormHeader, FormNavigator, FormInput, Radio, QuestionSteps },
   data() {
     return {
       mobileSidebar,
