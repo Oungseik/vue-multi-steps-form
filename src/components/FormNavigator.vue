@@ -5,7 +5,7 @@
     </button>
     <button
       class="ml-auto px-4 py-2 bg-marine-blue text-alabaster rounded-md"
-      v-if="current !== end"
+      v-if="current < end"
       @click="$emit('navigateForm', 'next')"
     >
       Next Step
