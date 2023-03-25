@@ -7,7 +7,9 @@
       <QuestionSteps className="mx-auto" :steps="totalSteps + 1" :currentStep="currentStep" />
 
       <form class="bg-white rounded-xl px-6 py-8 mt-8">
-        <FormHeader :title="form.title" :description="form.description" />
+        <template v-if="currentStep <= totalSteps">
+          <FormHeader :title="form.title" :description="form.description" />
+        </template>
 
         <template v-if="currentStep === 0">
           <FormInput
@@ -116,6 +118,8 @@
             >
           </div>
         </template>
+
+        <template v-if="currentStep === totalSteps + 1"> <ThankYou /></template>
       </form>
 
       <FormNavigator
@@ -140,15 +144,16 @@ import FormNavigator from "./components/FormNavigator.vue";
 import FormInput from "./components/FormInput.vue";
 import QuestionSteps from "./components/QuestionSteps.vue";
 import Radio from "./components/Radio.vue";
+import ThankYou from "./components/ThankYou.vue";
 
 export default {
   name: "App",
-  components: { CheckBox, FormHeader, FormNavigator, FormInput, Radio, QuestionSteps },
+  components: { CheckBox, FormHeader, FormNavigator, FormInput, Radio, QuestionSteps, ThankYou },
   data() {
     return {
       mobileSidebar,
       totalSteps: formSteps.length - 1,
-      currentStep: 0,
+      currentStep: 4,
       formData: {
         name: "",
         email: "",
@@ -218,7 +223,10 @@ export default {
       );
     },
 
-    submitData() {}
+    submitData() {
+      this.currentStep += 1;
+      // send this.formData to the server
+    }
   },
   computed: {
     form() {
