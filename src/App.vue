@@ -168,7 +168,7 @@ export default {
     return {
       mobileSidebar,
       totalSteps: formSteps.length - 1,
-      currentStep: 4,
+      currentStep: 0,
       formData: {
         name: "",
         email: "",
