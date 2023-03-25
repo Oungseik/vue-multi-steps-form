@@ -1,6 +1,10 @@
 <template>
   <div class="flex bg-white px-8 py-4" :class="className">
-    <button class="text-cool-gray" v-if="current !== start" @click="$emit('navigateForm', 'back')">
+    <button
+      class="text-cool-gray"
+      v-if="current !== start && current < end"
+      @click="$emit('navigateForm', 'back')"
+    >
       Go Back
     </button>
     <button
